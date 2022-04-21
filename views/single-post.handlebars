@@ -1,13 +1,13 @@
 <article class="post">
     <div class="title">
         <a href="{{post.post_url}}" target="_blank">{{post.title}}</a>
-        <span>({{post.post_url}})</span>
+        <span>({{format_url post.post_url}})</span>
     </div>
     <div class="meta">
-        {{post.vote_count}} point(s) by {{post.user.username}} on
-        {{post.created_at}}
+        {{post.vote_count}} {{format_plural "point" post.vote_count}} by {{post.user.username}} on
+        {{format_date post.created_at}}
         |
-        <a href="/post/{{post.id}}">{{post.comments.length}} comment(s)</a>
+        <a href="/post/{{post.id}}">{{post.comments.length}} {{format_plural "comment" post.comments.length}}</a>
     </div>
 </article>
 
@@ -24,18 +24,7 @@
 </form>
 {{/if}}
 
-<div class="comments">
-    {{#each post.comments}}
-    <section class="comment">
-        <div class="meta">
-            {{user.username}} on {{created_at}}
-        </div>
-        <div class="text">
-            {{comment_text}}
-        </div>
-    </section>
-    {{/each}}
-</div>
+{{> comments post.comments}}
 
 {{#if loggedIn}}
 <script src="/javascript/comment.js"></script>
